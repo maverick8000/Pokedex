@@ -25,6 +25,8 @@ class MainViewController: UIViewController {
     var pokemonProfiles: [PokeTypes] = []
     var pokemonAbilities: [PokeAbilities] = []
     var pokemonMoves: [PokeMoves] = []
+    var counter: Int = 0
+    var myLimit: Int = 30
     
     var nameCache: [Int: String] = [:]
     var imageCache: [Int: Data] = [:]
@@ -33,19 +35,41 @@ class MainViewController: UIViewController {
     var abilityCache: [Int: [String]] = [:]
     var moveCache: [Int: [String]] = [:]
     
+    var currentPage = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setUpUI()
-
         
-        self.network.fetchPage2(urlStr: "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151") { result in
+        self.requestPage()
+        
+    }
+    
+    private func requestPage() {
+        
+        //self.network.fetchPage2(urlStr: "https://pokeapi.co/api/v2/pokemon?offset=\(self.currentPage*30)&limit=\(self.currentPage + 30)") { result in
+        //self.network.fetchPage2(urlStr: "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151") { result in
+        self.network.fetchPage2(urlStr: "https://pokeapi.co/api/v2/pokemon?offset=\(self.currentPage*30)&limit=\(self.myLimit)") { result in
+            
+                    print("\n\n\n\n\n00000##############################################################")
+                    print(self.currentPage)
+                    print("##############################################################11111\n\n\n\n\n")
+            
+            if self.currentPage*30 >= 120 {
+                self.myLimit = 1
+            }
+            if self.currentPage >= 6 {
+                return
+            }
             
             switch result {
                 
                 case .success(let page):
-                    print((page),"\n\n\n\n\n\n")
-                    self.pokemonNames = page.results
+                    //print((page),"\n\n\n\n\n\n")
+                    self.currentPage += 1
+                    //self.pokemonNames = page.results
+                    self.pokemonNames.append(contentsOf: page.results)
                     //self.nameCache[self.pokemonNames[inde]]
                 DispatchQueue.main.async {
                     self.pokemonTable.reloadData()
@@ -94,7 +118,7 @@ extension MainViewController: UITableViewDataSource {
 //        print("##############################################################\n\n\n\n\n")
         
         
-        self.network.fetchPage(urlStr: "https://pokeapi.co/api/v2/pokemon/\(indexPath.row + 1)") { result in
+        self.network.fetchPage(urlStr: "https://pokeapi.co/api/v2/pokemon/\(indexPath.row + 1)") { (result: Result<PokemonProfile, Error>) in
             
             switch result {
                 
@@ -117,9 +141,12 @@ extension MainViewController: UITableViewDataSource {
                         //print(self.pokemonAbilities.count)
                         //print(page.name)
                         var tempArr2: [String] = []
+//                        if self.pokemonAbilities.count > 0
+//                        {
                         for index in 0..<self.pokemonAbilities.count {
                             print(self.pokemonAbilities[index])
                             tempArr2.append(self.pokemonAbilities[index].ability.name)
+//                        }
                         }
                         self.abilityCache[indexPath.row] = tempArr2
                         print("##############################################################\n\n\n\n\n")
@@ -176,6 +203,15 @@ extension MainViewController: UITableViewDelegate {
         let detailVC = DetailViewController(text: nameCache[indexPath.row] ?? "pokeball", imageData: imageCache[indexPath.row]!, typeString: typeCache[indexPath.row] ?? "None", abilityStringArr: self.abilityCache[indexPath.row]!, moveStringArr: self.moveCache[indexPath.row]!)
         self.navigationController?.pushViewController(detailVC, animated: true)
         self.navigationController?.navigationBar.tintColor = .white
+    
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+                if indexPath.row == self.pokemonNames.count - 1 {
+                    self.requestPage()
+                }
+        
     }
     
 }
