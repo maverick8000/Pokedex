@@ -23,8 +23,8 @@ class MainViewController: UIViewController {
     let network: NetworkManager = NetworkManager()
     var pokemonNames: [ResultsName] = []
     var pokemonProfiles: [PokeTypes] = []
-    var pokemonAbilities: [PokeAbilities] = []
-    var pokemonMoves: [PokeMoves] = []
+    var pokemonAbilities: [Abilities] = []
+    var pokemonMoves: [Moves] = []
     var counter: Int = 0
     var myLimit: Int = 30
     

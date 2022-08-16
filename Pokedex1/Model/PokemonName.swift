@@ -9,11 +9,14 @@ import Foundation
 
 
 struct PokemonName: Decodable{
+    
     let results: [ResultsName]
 }
 
 
 struct ResultsName: Decodable {
+    
     let name: String
+    
 
 }

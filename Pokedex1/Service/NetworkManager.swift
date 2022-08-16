@@ -22,7 +22,7 @@ class NetworkManager {
 
 extension NetworkManager {
     
-    func fetchPage<T: Decodable>(urlStr: String, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetchPage(urlStr: String, completion: @escaping (Result<PokemonProfile, Error>) -> Void) {
         
         guard let url = URL(string: urlStr) else {
             //completion error
@@ -39,7 +39,7 @@ extension NetworkManager {
             }
             
             do {
-                let page = try JSONDecoder().decode(T.self, from: data)
+                let page = try JSONDecoder().decode(PokemonProfile.self, from: data)
                 completion(.success(page))
             } catch {
                 completion(.failure(error))
@@ -48,6 +48,33 @@ extension NetworkManager {
         }.resume()
 
     }
+    
+//    func fetchPage<T: Decodable>(urlStr: String, completion: @escaping (Result<T, Error>) -> Void) {
+//
+//        guard let url = URL(string: urlStr) else {
+//            //completion error
+//            return
+//        }
+//
+//        self.session.dataTask(with: url) { data, response, error in
+//
+//            // Do error handling
+//
+//            guard let data = data else {
+//                //return error
+//                return
+//            }
+//
+//            do {
+//                let page = try JSONDecoder().decode(T.self, from: data)
+//                completion(.success(page))
+//            } catch {
+//                completion(.failure(error))
+//            }
+//
+//        }.resume()
+//
+//    }
     
     func fetchPage2(urlStr: String, completion: @escaping (Result<PokemonName, Error>) -> Void) {
         

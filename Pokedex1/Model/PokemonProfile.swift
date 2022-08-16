@@ -9,58 +9,42 @@ import Foundation
 
 struct PokemonProfile: Decodable {
     
-    let name: String
-    let sprites: PokeSprites
+    let abilities: [Abilities]
+    let moves: [Moves]
     let types: [PokeTypes]
-    
-    let abilities: [PokeAbilities]
-    let moves: [PokeMoves]
+
 }
 
-struct PokeSprites: Decodable {
+struct Abilities: Decodable {
     
-    let back_default: String?
-    let back_female: String?
-    let back_shiny: String?
-    let back_Shiny_female: String?
-    let front_default: String?
-    let front_female: String?
-    let front_shiny: String?
-    let front_shiny_female: String?
+    let ability: AbilitiesArrElement
+}
+
+struct AbilitiesArrElement: Decodable {
     
+    let name: String
+    
+}
+
+struct Moves: Decodable {
+    
+    let move: MovesArrElement
+    
+}
+
+struct MovesArrElement: Decodable {
+    
+    let name: String
 }
 
 struct PokeTypes: Decodable {
     
-    let type: PokeType
+    let type: PokeTypesArrElement
     
 }
 
-struct PokeType: Decodable {
+struct PokeTypesArrElement: Decodable {
     
     let name: String
     
 }
-
-struct PokeAbilities: Decodable {
-    
-    let ability: PokeAbility
-}
-
-struct PokeAbility: Decodable {
-    
-    let name: String
-    
-}
-
-struct PokeMoves: Decodable {
-    
-    let move: PokeMove
-    
-}
-
-struct PokeMove: Decodable {
-    
-    let name: String
-}
-

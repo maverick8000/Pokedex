@@ -86,6 +86,23 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    let scrollView: UIScrollView = {
+            let scrollView = UIScrollView()
+
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            return scrollView
+        }()
+
+    let scrollViewContainer: UIStackView = {
+        let view = UIStackView()
+
+        view.axis = .vertical
+        view.spacing = 10
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let text: String
     let imageData: Data
     let typeString: String
@@ -126,40 +143,81 @@ class DetailViewController: UIViewController {
     
     private func setUpUI() {
         
-        self.view.addSubview(self.progDetailImageView)
-        self.view.addSubview(self.progLabel)
-        self.view.addSubview(self.progButton)
-        self.view.addSubview(self.abilityLabel)
-        self.view.addSubview(self.moveLabel)
+        ////// ########################################################################################################################################
         
-        self.progDetailImageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        self.progDetailImageView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        self.progDetailImageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        self.progDetailImageView.widthAnchor.constraint(equalToConstant: 400).isActive = true
-        self.progDetailImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-        //self.progDetailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -44).isActive = true
+        let vStackView = UIStackView(frame: .zero)
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
+        vStackView.spacing = 8
+        vStackView.axis = .vertical
+        vStackView.distribution = .fill
         
-        self.progLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        self.progLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        self.progLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        //self.progLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -44).isActive = true
-        self.progLabel.topAnchor.constraint(equalTo: self.progDetailImageView.bottomAnchor, constant: 16).isActive = true
+        let vStack1 = UIStackView(axis: .vertical, spacing: 8,distribution: .fill)
+        vStack1.addArrangedSubview(self.progDetailImageView)
+        
+        let vStack2 = UIStackView(axis: .vertical, spacing: 8, distribution: .fill)
+        vStack2.addArrangedSubview(self.progLabel)
+        vStack2.addArrangedSubview(self.progButton)
+        vStack2.addArrangedSubview(self.abilityLabel)
+        vStack2.addArrangedSubview(self.moveLabel)
+        
+        vStackView.addArrangedSubview(vStack1)
+        vStackView.addArrangedSubview(vStack2)
+        
+        
+        self.view.addSubview(self.scrollView)
+        self.scrollView.addSubview(self.scrollViewContainer)
+        self.scrollViewContainer.addArrangedSubview(vStackView)
+        
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
-        self.progButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        self.progButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        self.progButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        //self.progButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 44).isActive = true
-        self.progButton.topAnchor.constraint(equalTo: self.progLabel.bottomAnchor, constant: 16).isActive = true
+        scrollViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        scrollViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        scrollViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        scrollViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        scrollViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
-        self.abilityLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        self.abilityLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        self.abilityLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        self.abilityLabel.topAnchor.constraint(equalTo: self.progButton.bottomAnchor, constant: 16).isActive = true
+        vStack1.heightAnchor.constraint(equalTo: vStackView.heightAnchor, multiplier: 0.30).isActive = true
+        vStack2.heightAnchor.constraint(equalTo: vStackView.heightAnchor, multiplier: 0.70).isActive = true
         
-        self.moveLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        self.moveLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        self.moveLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        self.moveLabel.topAnchor.constraint(equalTo: self.abilityLabel.bottomAnchor, constant: 16).isActive = true
+        ////// ########################################################################################################################################
+        
+//        self.view.addSubview(self.progDetailImageView)
+//        self.view.addSubview(self.progLabel)
+//        self.view.addSubview(self.progButton)
+//        self.view.addSubview(self.abilityLabel)
+//        self.view.addSubview(self.moveLabel)
+//
+//        self.progDetailImageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+//        self.progDetailImageView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+//        self.progDetailImageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+//        self.progDetailImageView.widthAnchor.constraint(equalToConstant: 400).isActive = true
+//        self.progDetailImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+//        //self.progDetailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -44).isActive = true
+//
+//        self.progLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+//        self.progLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+//        self.progLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        //self.progLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -44).isActive = true
+//        self.progLabel.topAnchor.constraint(equalTo: self.progDetailImageView.bottomAnchor, constant: 16).isActive = true
+//
+//        self.progButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+//        self.progButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+//        self.progButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        //self.progButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 44).isActive = true
+//        self.progButton.topAnchor.constraint(equalTo: self.progLabel.bottomAnchor, constant: 16).isActive = true
+//
+//        self.abilityLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+//        self.abilityLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+//        self.abilityLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        self.abilityLabel.topAnchor.constraint(equalTo: self.progButton.bottomAnchor, constant: 16).isActive = true
+//
+//        self.moveLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+//        self.moveLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+//        self.moveLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        self.moveLabel.topAnchor.constraint(equalTo: self.abilityLabel.bottomAnchor, constant: 16).isActive = true
         
     }
     
